@@ -1,0 +1,199 @@
+Installing React
+--------------
+Method-01 (Slow/Bulky method)
+cmd -> npx create-react-app <appname>
+cmd -> cd <appfolder>
+cmd -> npm run start
+
+Method-02 (Using Vite)
+cmd -> npm create vite@latest
+cmd -> cd <projectFolder>
+cmd -> npm install  /or/  npm i
+cmd -> npm run dev
+
+
+Files kept
+---------
+node_modules
+public
+src - App.jsx
+      main.jsx
+.eslintrc.cjs
+.gitignore
+index.html
+package-lock.json
+package.json
+README.method
+vite.config.js
+
+
+# In case of component functions, always keep the first letter of the name Capital.
+
+# Basic header (vite)
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+
+Hooks
+------
+useState(), useCallback(), useEffect(), useRef()    //Used in "password-generator" project
+useId()
+
+
+
+# Remember the 'key' in loops in React
+
+
+
+React Router
+------------
+Installation:
+cmd -> npm install react-router-dom
+// main.jsx //
+-> import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+-> const router = createBrowserRouter([
+{
+  path: '/',
+  element: <Layout/>,
+  children: [
+    {
+      path: "",
+      element: <Home />
+    },
+    {
+      path: "about",
+      element: <About />
+    },
+    {
+      path: "contact",
+      element: <Contact />
+    }
+  ]
+}
+])
+
+=> const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Layout />}>
+      <Route
+            path=''
+            element={<Home />}
+      />
+      <Route
+            path='about'
+            element={<About />}
+      />
+      <Route
+            path='contact'
+            element={<Contact/>}
+      />
+      <Route
+            path='user/:userid'
+            element={<User />}
+      />
+      <Route 
+            loader={githubInfoLoader}
+            path='github' 
+            element={<Github />}
+       />
+    </Route>
+  )
+)
+
+-> ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+)
+
+// <routedFile> //
+import { Outlet } from 'react-router-dom'
+
+function <routedFile>() {
+  return (
+    <>
+    <Header/>
+      <Outlet />
+    <Footer />
+    </>
+  )
+}
+
+Navlinks in Header (react-router-dom)
+-------------------------------------
+// Header.jsx //
+import {Link, NavLink} from 'react-router-dom'
+export default function Header() {
+  return (
+    <header>
+      <nav>
+        <Link to="/">
+          <img
+            src="https://alexharkness.com/wp-content/uploads/2020/06/logo-2.png"
+            alt="Logo"
+          />
+        </Link>
+        <ul>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `${isActive ? "text-orange-700" : "text-gray-700"}`
+              }
+            >
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                `${isActive ? "text-orange-700" : "text-gray-700"}`
+              }
+            >
+              About
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
+
+
+Context API
+-----------
+src folder -> create <context> folder
+context folder -> create <UserContext>.js file
+
+<UserContext>.js ->
+  import React from 'react'
+  const UserContext = React.createContext()
+  export default UserContext;
+
+context folder -> create <userContextProvider>.jsx file
+<userContextProvider>.jsx ->
+  import React from "react";
+  import UserContext from "./UserContext";
+
+  const UserContextProvider = ({children}) => {
+    const [user, setUser] = React.useState(null);
+    return(
+      <UserContext.Provider value={user, setUser}>
+        {children}
+      </UserContextProvider>
+    )
+  }
+  
+  export default UserContextProvider;
+
+Get Context Data ->
+App.jsx ->
+  function App() {
+    reutrn(
+      <UserContextProvider>
+        
+      </UserContextProvider>
+    )
+  }
